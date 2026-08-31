@@ -1,0 +1,20 @@
+whitelist:
+  ips:
+    - 1.2.3.4
+  urls:
+    - https://api.example.com/ips
+
+# Remove this section to use Nginx's default combined access log format.
+access_log:
+  format: '$remote_addr [$time_local] "$host" "$request" $status $body_bytes_sent ${request_time}s "$http_referer" "$http_user_agent" $ssl_curve'
+
+path_rules:
+  - match: contains
+    pattern: /wp-
+    score: 4
+  - match: endswith
+    pattern: .php
+    score: 2
+  - match: contains
+    pattern: /.git
+    score: 2
