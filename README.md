@@ -28,13 +28,15 @@ path_rules:            # score points per matching request path
   - match: contains    # startswith | endswith | contains
     pattern: /wp-
     score: 4
+
+block_score: 10        # optional; score an IP needs before it gets blocked
 ```
 
 ## Scoring
 
 - Each request matching a path rule adds its score.
 - Each `444` response (an nwall drop) adds 1.
-- IPs reaching a total score of 10 that are not whitelisted get blocked.
+- IPs reaching the configured `block_score` (default 10) that are not whitelisted get blocked.
 
 ## State
 

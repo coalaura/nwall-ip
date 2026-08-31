@@ -9,17 +9,17 @@ import (
 )
 
 const (
-	blockScore        = uint64(10)
+	defaultBlockScore = uint64(10)
 	firewallGroupName = "nwall"
 	firewallIPv6Set   = "nwall6"
 )
 
-func ApplyFirewall(results []IPResult, whitelist map[netip.Addr]struct{}) error {
+func ApplyFirewall(results []IPResult, whitelist map[netip.Addr]struct{}, minimumScore uint64) error {
 	ipv4Addresses := make([]netip.Addr, 0, len(results))
 	ipv6Addresses := make([]netip.Addr, 0)
 
 	for _, result := range results {
-		if !ShouldBlock(result, whitelist) {
+		if !ShouldBlock(result, whitelist, minimumScore) {
 			continue
 		}
 
@@ -53,8 +53,8 @@ func ApplyFirewall(results []IPResult, whitelist map[netip.Addr]struct{}) error 
 	return nil
 }
 
-func ShouldBlock(result IPResult, whitelist map[netip.Addr]struct{}) bool {
-	if result.Score < blockScore {
+func ShouldBlock(result IPResult, whitelist map[netip.Addr]struct{}, minimumScore uint64) bool {
+	if result.Score < minimumScore {
 		return false
 	}
 

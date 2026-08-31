@@ -27,9 +27,10 @@ type PathScoreRule struct {
 }
 
 type Config struct {
-	AccessLog AccessLogConfig `yaml:"access_log"`
-	PathRules []PathScoreRule `yaml:"path_rules"`
-	Whitelist WhitelistConfig `yaml:"whitelist"`
+	AccessLog  AccessLogConfig `yaml:"access_log"`
+	PathRules  []PathScoreRule `yaml:"path_rules"`
+	Whitelist  WhitelistConfig `yaml:"whitelist"`
+	BlockScore uint64          `yaml:"block_score"`
 }
 
 type AccessLogConfig struct {

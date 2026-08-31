@@ -55,6 +55,12 @@ func run(args []string) error {
 		return fmt.Errorf("access_log.format: %w", err)
 	}
 
+	minimumScore := config.BlockScore
+
+	if minimumScore == 0 {
+		minimumScore = defaultBlockScore
+	}
+
 	whitelist, err := LoadIPWhitelist(config.Whitelist)
 	if err != nil {
 		return err
@@ -170,7 +176,7 @@ func run(args []string) error {
 		return err
 	}
 
-	err = ApplyFirewall(results, whitelist)
+	err = ApplyFirewall(results, whitelist, minimumScore)
 	if err != nil {
 		return err
 	}
@@ -178,7 +184,7 @@ func run(args []string) error {
 	blocked := 0
 
 	for _, result := range results {
-		if ShouldBlock(result, whitelist) {
+		if ShouldBlock(result, whitelist, minimumScore) {
 			blocked++
 		}
 	}

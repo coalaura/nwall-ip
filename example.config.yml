@@ -8,6 +8,9 @@ whitelist:
 access_log:
   format: '$remote_addr [$time_local] "$host" "$request" $status $body_bytes_sent ${request_time}s "$http_referer" "$http_user_agent" $ssl_curve'
 
+# Score an IP needs before it gets blocked. Defaults to 10.
+block_score: 10
+
 path_rules:
   - match: contains
     pattern: /wp-
